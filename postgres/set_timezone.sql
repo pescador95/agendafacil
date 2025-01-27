@@ -1,0 +1,1 @@
+ALTER SYSTEM SET TIMEZONE TO 'America/Sao_Paulo';

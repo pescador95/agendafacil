@@ -1,0 +1,60 @@
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: Gateway
+metadata:
+  name: agendafacil-gateway
+  namespace: agendafacil
+spec:
+  gatewayClassName: nginx
+  listeners:
+  - name: http
+    port: 80
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: All
+
+---
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: HTTPRoute
+metadata:
+  name: agendafacil-route
+  namespace: agendafacil
+spec:
+  parentRefs:
+  - name: agendafacil-gateway
+  hostnames:
+  - "localhost"
+  - "agendafacil.app"
+  - "blackbelt.agendafacil.app"
+  - "backend-service"
+  - "telegram-service"
+  - "whatsapp-service"
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: frontend-service
+      port: 80
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: backend-service
+      port: 3000
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: telegram-service
+      port: 5000
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: whatsapp-service
+      port: 4000

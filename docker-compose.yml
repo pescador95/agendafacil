@@ -1,0 +1,80 @@
+version: "3.3"
+
+services:
+  db:
+    container_name: db-service
+    image: pescador95/agendafacil:db
+    mem_limit: 256m
+    build:
+      context: ./postgres
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "5433:5432"
+    networks:
+      - agendafacil-compose-network
+
+  redis:
+    container_name: redis-service
+    image: pescador95/agendafacil:redis
+    mem_limit: 256m
+    build:
+      context: ./redis
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+    ports:
+      - "6379:6379"
+    networks:
+      - agendafacil-compose-network
+
+  backend:
+    container_name: backend-service
+    image: pescador95/agendafacil:quarkus
+    mem_limit: 2048m
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "3000:3000"
+    depends_on:
+      - redis
+    networks:
+      - agendafacil-compose-network
+
+  telegram:
+    container_name: telegram-service
+    image: pescador95/agendafacil:telegram
+    mem_limit: 512m
+    build:
+      context: ./bot
+      dockerfile: Dockerfile.telegram
+    env_file:
+      - .env
+    networks:
+      - agendafacil-compose-network
+
+  whatsapp:
+    container_name: whatsapp-service
+    image: pescador95/agendafacil:whatsapp
+    mem_limit: 512m
+    build:
+      context: ./bot
+      dockerfile: Dockerfile.whatsapp
+    env_file:
+      - .env
+    networks:
+      - agendafacil-compose-network
+  react:
+    container_name: agendafacil-react
+    image: pescador95/agendafacil:reactservice
+    ports:
+      - "80:80"
+networks:
+  agendafacil-compose-network:
+    driver: bridge

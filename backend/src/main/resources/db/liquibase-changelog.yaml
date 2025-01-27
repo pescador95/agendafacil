@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - includeAll:
+      path: db/migration/config
+      errorIfMissingOrEmpty: false
+
+  - includeAll:
+      path: db/migration/tenant
+      errorIfMissingOrEmpty: false

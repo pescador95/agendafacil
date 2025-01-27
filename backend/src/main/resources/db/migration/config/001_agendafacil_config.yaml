@@ -1,0 +1,186 @@
+databaseChangeLog:
+  - changeSet:
+      id: config-01
+      author: pescador95
+      context: config
+      changes:
+        - createTable:
+            schemaName: config
+            tableName: applicationconfig
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: agendafacilurl
+                  type: varchar(255)
+              - column:
+                  name: emailpassword
+                  type: varchar(255)
+              - column:
+                  name: emailuser
+                  type: varchar(255)
+              - column:
+                  name: profile
+                  type: varchar(255)
+              - column:
+                  name: quarkusbaseurl
+                  type: varchar(255)
+              - column:
+                  name: quarkusport
+                  type: integer
+              - column:
+                  name: quarkusurl
+                  type: varchar(255)
+              - column:
+                  name: redisbaseurl
+                  type: varchar(255)
+              - column:
+                  name: scheduleenabled
+                  type: boolean
+                  defaultValueBoolean: true
+              - column:
+                  name: telegrambaseurl
+                  type: varchar(255)
+              - column:
+                  name: whatsappbaseurl
+                  type: varchar(255)
+              - column:
+                  name: tracemethods
+                  type: boolean
+                  defaultValueBoolean: false
+
+  - changeSet:
+      id: config-02
+      author: pescador95
+      context: config
+      changes:
+        - createTable:
+            schemaName: config
+            tableName: contrato
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: ativo
+                  type: boolean
+              - column:
+                  name: consideracoes
+                  type: varchar(255)
+              - column:
+                  name: datacontrato
+                  type: date
+              - column:
+                  name: dataterminocontrato
+                  type: date
+              - column:
+                  name: numeromaximosessoes
+                  type: integer
+              - column:
+                  name: systemdatedeleted
+                  type: timestamp(6)
+              - column:
+                  name: tenant
+                  type: varchar(255)
+              - column:
+                  name: tipocontratoid
+                  type: bigint
+
+  - changeSet:
+      id: config-03
+      author: pescador95
+      context: config
+      changes:
+        - createTable:
+            schemaName: config
+            tableName: tenant
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: tenant
+                  type: varchar(255)
+              - column:
+                  name: contratoid
+                  type: bigint
+
+  - changeSet:
+      id: config-04
+      author: pescador95
+      context: config
+      changes:
+        - createTable:
+            schemaName: config
+            tableName: tipocontrato
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: descricao
+                  type: varchar(255)
+              - column:
+                  name: tipocontrato
+                  type: varchar(255)
+
+  - changeSet:
+      id: config-05
+      author: pescador95
+      context: config
+      changes:
+        - createTable:
+            schemaName: config
+            tableName: timezone
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: timezoneid
+                  type: varchar(255)
+              - column:
+                  name: timezoneoffset
+                  type: varchar(255)
+
+  - changeSet:
+      id: config-06
+      author: pescador95
+      context: config
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: contrato
+            basecolumnnames: tipocontratoid
+            constraintName: FKr9jav3b0ufqxvpx7uoebytedr
+            referencedTableName: tipocontrato
+            referencedColumnNames: id
+            referencedSchemaName: config
+
+  - changeSet:
+      id: config-07
+      author: pescador95
+      context: config
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: tenant
+            basecolumnnames: contratoid
+            constraintName: FKmyf2h9yh4laj92a863ddpw3sh
+            referencedTableName: contrato
+            referencedColumnNames: id
+            referencedSchemaName: config

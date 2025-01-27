@@ -1,0 +1,7 @@
+*
+!target/*-runner
+!target/*-runner.jar
+!target/lib/*
+!backend/
+!carga-inicial/*
+*
