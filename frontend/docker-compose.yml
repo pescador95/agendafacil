@@ -1,0 +1,9 @@
+services:
+  vue:
+    container_name: agendafacil-vue
+    image: pescador95/agendafacil:vue
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"

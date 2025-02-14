@@ -1,0 +1,186 @@
+services:
+  db:
+    container_name: db-service
+    image: pescador95/agendafacil:db
+    mem_limit: 256m
+    build:
+      context: ./postgres
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "5433:5432"
+    networks:
+      - agendafacil-compose-network
+
+  redis:
+    container_name: redis-service
+    image: pescador95/agendafacil:redis
+    mem_limit: 256m
+    build:
+      context: ./redis
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+    ports:
+      - "6379:6379"
+    networks:
+      - agendafacil-compose-network
+
+  backend:
+    container_name: backend-service
+    image: pescador95/agendafacil:quarkus
+    mem_limit: 2048m
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "3000:3000"
+    depends_on:
+      - redis
+    networks:
+      - agendafacil-compose-network
+
+  telegram:
+    container_name: telegram-service
+    image: pescador95/agendafacil:telegram
+    mem_limit: 512m
+    build:
+      context: ./bot
+      dockerfile: Dockerfile.telegram
+    env_file:
+      - .env
+    networks:
+      - agendafacil-compose-network
+
+  whatsapp:
+    container_name: whatsapp-service
+    image: pescador95/agendafacil:whatsapp
+    mem_limit: 512m
+    build:
+      context: ./bot
+      dockerfile: Dockerfile.whatsapp
+    env_file:
+      - .env
+    networks:
+      - agendafacil-compose-network
+      
+  whatsapp-build:
+    container_name: whatsapp-service2
+    image: pescador95/agendafacil:whatsapp2
+    mem_limit: 512m
+    build:
+      context: ./bot
+      dockerfile: Dockerfile.whatsapp.build
+    env_file:
+      - .env
+    networks:
+      - agendafacil-compose-network      
+      
+  vue:
+    container_name: agendafacil-vue
+    image: pescador95/agendafacil:vue
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    networks:
+      - agendafacil-compose-network      
+
+  prometheus:
+    container_name: prometheus-service
+    image: pescador95/agendafacil:prometheus
+    build:
+      context: ./telemetria
+      dockerfile: Dockerfile.prometheus
+    volumes:
+    - './telemetria/prometheus-config.yml:/etc/prometheus/prometheus.yml:ro'
+    ports:
+    - "9090:9090"
+    - "9091:9091"
+    networks:
+      - agendafacil-compose-network
+    
+  grafana:
+    container_name: grafana-service
+    image: pescador95/agendafacil:grafana
+    build:
+      context: ./telemetria
+      dockerfile: Dockerfile.grafana
+    environment:
+    - GF_SECURITY_ADMIN_USER=admin
+    - GF_SECURITY_ADMIN_PASSWORD=admin
+    ports:
+    - "9191:3000"
+    depends_on:
+    - prometheus    
+    networks:
+      - agendafacil-compose-network
+      
+  loki:
+    image: pescador95/agendafacil:loki
+    container_name: loki-service
+    build:
+      context: ./telemetria
+      dockerfile: Dockerfile.loki
+    ports:
+      - "3100:3100"
+      - "9095:9095"
+    volumes:
+      - loki-data:/tmp/loki
+    command: -config.file=/etc/loki-config.yaml
+    configs:
+      - source: loki_config
+        target: /etc/loki-config.yaml
+    networks:
+      - agendafacil-compose-network
+
+  collector:
+    image: pescador95/agendafacil:collector
+    container_name: collector-service
+    build:
+      context: ./telemetria
+      dockerfile: Dockerfile.collector
+    ports:
+      - "4317:4317"  
+      - "4318:4318"
+      - "8888:8888"
+    depends_on:
+      - loki
+    networks:
+      - agendafacil-compose-network     
+      
+  tempo:
+    image: pescador95/agendafacil:tempo
+    container_name: tempo-service
+    build:
+      context: ./telemetria
+      dockerfile: Dockerfile.tempo
+    ports:
+      - "3200:3200"
+      - "4417:4417"  
+      - "4418:4418"   
+      - "9096:9096"
+    networks:
+      - agendafacil-compose-network 
+    volumes:
+      - tempo-data:/data/tempo    
+
+configs:
+  loki_config:
+    file: ./telemetria/loki-config.yaml
+    
+          
+volumes:
+  grafana-data:
+  tempo-data: 
+  loki-data:               
+    
+networks:
+  agendafacil-compose-network:
+    driver: bridge    

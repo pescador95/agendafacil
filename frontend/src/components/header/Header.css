@@ -1,0 +1,12 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--ice);
+    border-radius: 3px;
+    padding: 0 16px;
+}
+
+.header-buttons {
+    display: flex;
+}

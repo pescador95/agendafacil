@@ -1,0 +1,16 @@
+
+
+services:
+  redis:
+    container_name: redis-service
+    image: pescador95/agendafacil:redis
+    mem_limit: 256m
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    env_file:
+      - ../.env
+    volumes:
+      - ../redis/redis.conf:/usr/local/etc/redis/redis.conf
+    ports:
+      - "6379:6379"

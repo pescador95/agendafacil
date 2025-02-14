@@ -1,0 +1,46 @@
+{
+  "name": "agendafacil-api-telegram-bot",
+  "version": "1.0.0",
+  "description": "Agenda Facil API - Telegram Bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "agenda",
+    "facil",
+    "api",
+    "telegram",
+    "bot",
+    "javascript",
+    "nodejs",
+    "express",
+    "axios",
+    "cors",
+    "dotenv",
+    "moment",
+    "moment-business-days",
+    "node-telegram-bot-api",
+    "telegraf",
+    "nodemon"
+  ],
+  "author": "pescador95",
+  "license": "ISC",
+  "dependencies": {
+    "agendafacil-api-telegram-bot": "file:",
+    "axios": "1.7.9",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "moment": "^2.30.1",
+    "moment-business-days": "^1.2.0",
+    "node-telegram-bot-api": "^0.66.0",
+    "prom-client": "^15.1.3",
+    "telegraf": "^4.16.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}

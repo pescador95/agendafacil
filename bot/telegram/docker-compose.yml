@@ -1,0 +1,12 @@
+services:
+  telegram:
+    container_name: telegram-service
+    image: pescador95/agendafacil:telegram
+    mem_limit: 512m
+    build:
+      context: ../
+      dockerfile: Dockerfile.telegram
+    env_file:
+      - ../../.env
+    ports:
+      - "5000:5000"

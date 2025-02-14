@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana-service
+  namespace: agendafacil
+spec:
+  selector:
+    app: agendafacil-grafana
+  ports:
+    - protocol: TCP
+      port: 9191
+      targetPort: 3000

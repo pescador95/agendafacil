@@ -1,0 +1,45 @@
+{
+    "id": 3,
+    "uid": "fec9lpnk655a8d",
+    "orgId": 1,
+    "name": "loki",
+    "type": "loki",
+    "typeLogoUrl": "public/app/plugins/datasource/loki/img/loki_icon.svg",
+    "access": "proxy",
+    "url": "http://loki-service:3100/",
+    "user": "",
+    "database": "",
+    "basicAuth": false,
+    "basicAuthUser": "",
+    "withCredentials": false,
+    "isDefault": false,
+    "jsonData": {
+        "derivedFields": [
+            {
+                "datasourceUid": "cec9loyz74740a",
+                "matcherRegex": "traceid",
+                "matcherType": "label",
+                "name": "trace_id",
+                "url": "${__value.raw}",
+                "urlDisplayLabel": "Trace: ${__value.raw}"
+            }
+        ]
+    },
+    "secureJsonFields": {},
+    "version": 16,
+    "readOnly": false,
+    "accessControl": {
+        "alert.instances.external:read": true,
+        "alert.instances.external:write": true,
+        "alert.notifications.external:read": true,
+        "alert.notifications.external:write": true,
+        "alert.rules.external:read": true,
+        "alert.rules.external:write": true,
+        "datasources.id:read": true,
+        "datasources:delete": true,
+        "datasources:query": true,
+        "datasources:read": true,
+        "datasources:write": true
+    },
+    "apiVersion": ""
+}

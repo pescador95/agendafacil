@@ -1,0 +1,56 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+      
+rule_files:
+
+scrape_configs:
+
+  - job_name: "opentelemetry-collector"
+    metrics_path: "/metrics"  
+    scrape_interval: "5s" 
+    static_configs:
+      - targets: ["collector-service:9090"]
+
+  - job_name: "loki"
+    scrape_interval: "5s" 
+    static_configs:
+      - targets: ['loki-service:3100']  
+
+  - job_name: "prometheus"
+    scrape_interval: "5s"   
+    static_configs:
+      - targets: ["prometheus-service:9090"]
+      
+  - job_name: "tempo"
+    static_configs:
+      - targets: ["tempo-service:3200"]      
+      
+  - job_name: "grafana"
+    metrics_path: "/metrics"
+    scrape_interval: "5s"
+    static_configs:
+      - targets: ["grafana-service:9191"]      
+
+  - job_name: "agendafacil-quarkus"
+    metrics_path: "/q/metrics"
+    scrape_interval: "5s"
+    static_configs:
+      - targets: ["backend-service:3000"]
+      
+  - job_name: "agendafacil-telegram"
+    metrics_path: "/metrics"
+    scrape_interval: "5s"
+    static_configs:
+      - targets: ["telegram-service:5000"]      
+      
+  - job_name: "agendafacil-whatsapp"
+    metrics_path: "/metrics"
+    scrape_interval: "5s"
+    static_configs:
+      - targets: ["whatsapp-service:4000"]

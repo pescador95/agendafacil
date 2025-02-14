@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus-service
+  namespace: agendafacil
+spec:
+  selector:
+    app: agendafacil-prometheus
+  ports:
+    - name: grpc-port
+      protocol: TCP
+      port: 9090
+      targetPort: 9090
+    - name: http-port
+      protocol: TCP
+      port: 9091
+      targetPort: 9091
+---      
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-deployment
+  namespace: agendafacil
+  labels:
+    app: agendafacil-prometheus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: agendafacil-prometheus
+  template:
+    metadata:
+      labels:
+        app: agendafacil-prometheus
+    spec:
+      containers:
+        - name: agendafacil-prometheus
+          image: pescador95/agendafacil:prometheus
+          ports:
+            - containerPort: 9090
+            - containerPort: 9091

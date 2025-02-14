@@ -1,0 +1,49 @@
+.agendamento-page {
+    display: flex;
+    flex-direction: row;
+}
+
+.main-content {
+    padding: 20px;
+    flex: 1;
+    background: var(--grey-500);
+}
+
+.content {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-self: auto;
+    justify-content: space-between;
+    gap: 25px;
+}
+
+.page-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 0;
+    align-items: right;
+    width: 150px;
+}
+
+.filter-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.filter-column {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.action {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}

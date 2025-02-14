@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana-deployment
+  namespace: agendafacil
+  labels:
+    app: agendafacil-grafana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: agendafacil-grafana
+  template:
+    metadata:
+      labels:
+        app: agendafacil-grafana
+    spec:
+      containers:
+        - name: agendafacil-grafana
+          image: pescador95/agendafacil:grafana
+          ports:
+            - containerPort: 3000
+          env:
+            - name: GF_SECURITY_ADMIN_USER
+              value: admin
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              value: admin
+            - name: GF_SERVER_HTTP_PORT
+              value: "3000" 

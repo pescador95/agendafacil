@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tempo-deployment
+  namespace: agendafacil
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tempo
+  template:
+    metadata:
+      labels:
+        app: tempo
+    spec:
+      containers:
+        - name: tempo
+          image: pescador95/agendafacil:tempo
+          args:
+            - -config.file=/etc/tempo/tempo-config.yaml
+          ports:
+            - containerPort: 3200
+            - containerPort: 4417
+            - containerPort: 4418
+            - containerPort: 9096
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tempo-service
+  namespace: agendafacil
+spec:
+  selector:
+    app: tempo
+  ports:
+    - name: http-port
+      protocol: TCP
+      port: 3200
+      targetPort: 3200
+    - name: grpc-port-4417
+      protocol: TCP
+      port: 4417
+      targetPort: 4417
+    - name: grpc-http-port-4418
+      protocol: TCP
+      port: 4418
+      targetPort: 4418
+    - name: grpc-port
+      protocol: TCP
+      port: 9096
+      targetPort: 9096

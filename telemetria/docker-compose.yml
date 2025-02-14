@@ -1,0 +1,91 @@
+services:
+  prometheus:
+    image: pescador95/agendafacil:prometheus
+    container_name: prometheus
+    build:
+      context: ./
+      dockerfile: Dockerfile.prometheus
+    volumes:
+      - ./prometheus-config.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+      - "9091:9091"
+    restart: unless-stopped
+    networks:
+      - agendafacil-network
+
+  grafana:
+    image: pescador95/agendafacil:grafana
+    build:
+      context: ./
+      dockerfile: Dockerfile.grafana
+    container_name: grafana
+    ports:
+      - "9191:3000"
+    restart: unless-stopped
+    volumes:
+      - grafana-data:/var/lib/grafana  
+    networks:
+      - agendafacil-network
+
+  loki:
+    image: pescador95/agendafacil:loki
+    container_name: loki-service
+    build:
+      context: .
+      dockerfile: Dockerfile.loki
+    ports:
+      - "3100:3100"
+      - "9095:9095"      
+    volumes:
+      - loki-data:/tmp/loki
+    command: -config.file=/etc/loki-config.yaml
+    configs:
+      - source: loki_config
+        target: /etc/loki-config.yaml
+    networks:
+      - agendafacil-network
+
+  collector:
+    image: pescador95/agendafacil:collector
+    container_name: collector-service
+    build:
+      context: .
+      dockerfile: Dockerfile.collector
+    ports:
+      - "4317:4317"  
+      - "4318:4318"   
+      - "8888:8888"
+    depends_on:
+      - loki
+    networks:
+      - agendafacil-network
+
+  tempo:
+    image: pescador95/agendafacil:tempo
+    container_name: tempo-service
+    build:
+      context: .
+      dockerfile: Dockerfile.tempo
+    ports:
+      - "3200:3200"
+      - "4417:4417"  
+      - "4418:4418"   
+      - "9096:9096"
+    networks:
+      - agendafacil-network
+    volumes:
+      - tempo-data:/data/tempo
+      
+configs:
+  loki_config:
+    file: ./loki-config.yaml
+    
+volumes:
+  grafana-data:
+  tempo-data:
+  loki-data:
+
+networks:
+  agendafacil-network:
+    driver: bridge

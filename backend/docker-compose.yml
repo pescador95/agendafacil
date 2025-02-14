@@ -1,0 +1,18 @@
+services:
+  backend:
+    container_name: backend-service
+    image: pescador95/agendafacil:quarkus
+    mem_limit: 2048m
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    env_file:
+      - ../.env
+    ports:
+      - "3000:3000"
+    networks:
+      - backend-network
+
+networks:
+  backend-network:
+    driver: bridge

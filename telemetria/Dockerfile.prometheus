@@ -1,0 +1,8 @@
+# Usar a imagem base do Prometheus
+FROM prom/prometheus:latest
+
+COPY prometheus-config.yml /etc/prometheus/prometheus.yml
+
+EXPOSE 9090 9091
+
+ENTRYPOINT [ "/bin/prometheus", "--config.file=/etc/prometheus/prometheus.yml" ]

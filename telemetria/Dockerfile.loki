@@ -1,0 +1,15 @@
+FROM grafana/loki:latest
+
+USER root
+
+RUN mkdir -p /tmp/loki && chmod -R 777 /tmp/loki
+
+USER 1000
+
+COPY loki-config.yaml /etc/loki/local-config.yaml
+
+VOLUME [ "/tmp/loki" ]
+
+EXPOSE 3100 9095
+
+CMD ["-config.file=/etc/loki/local-config.yaml"]

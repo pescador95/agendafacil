@@ -1,0 +1,43 @@
+{
+    "id": 1,
+    "uid": "dec9lob5ezgg0d",
+    "orgId": 1,
+    "name": "prometheus",
+    "type": "prometheus",
+    "typeLogoUrl": "public/app/plugins/datasource/prometheus/img/prometheus_logo.svg",
+    "access": "proxy",
+    "url": "http://prometheus-service:9090/",
+    "user": "",
+    "database": "",
+    "basicAuth": false,
+    "basicAuthUser": "",
+    "withCredentials": false,
+    "isDefault": true,
+    "jsonData": {
+        "exemplarTraceIdDestinations": [
+            {
+                "datasourceUid": "cec9loyz74740a",
+                "name": "traceID",
+                "urlDisplayLabel": "Trace: ${__value.raw}"
+            }
+        ],
+        "httpMethod": "POST"
+    },
+    "secureJsonFields": {},
+    "version": 5,
+    "readOnly": false,
+    "accessControl": {
+        "alert.instances.external:read": true,
+        "alert.instances.external:write": true,
+        "alert.notifications.external:read": true,
+        "alert.notifications.external:write": true,
+        "alert.rules.external:read": true,
+        "alert.rules.external:write": true,
+        "datasources.id:read": true,
+        "datasources:delete": true,
+        "datasources:query": true,
+        "datasources:read": true,
+        "datasources:write": true
+    },
+    "apiVersion": ""
+}

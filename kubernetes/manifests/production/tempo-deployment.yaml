@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tempo-deployment
+  namespace: agendafacil
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tempo
+  template:
+    metadata:
+      labels:
+        app: tempo
+    spec:
+      containers:
+        - name: tempo
+          image: pescador95/agendafacil:tempo
+          args:
+            - -config.file=/etc/tempo/tempo-config.yaml
+          ports:
+            - containerPort: 3200
+            - containerPort: 4417
+            - containerPort: 4418
+            - containerPort: 9096

@@ -1,0 +1,12 @@
+
+FROM grafana/grafana:latest
+
+USER root
+
+COPY datasource/grafana.db /var/lib/grafana/grafana.db
+
+RUN chown root:root /var/lib/grafana/grafana.db
+
+EXPOSE 9191
+
+CMD ["/run.sh"]

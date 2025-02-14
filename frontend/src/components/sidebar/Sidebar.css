@@ -1,0 +1,80 @@
+.sidebar {
+    display: flex;
+    flex-direction: column;
+
+    position: static;
+    width: 300px;
+    height: 100vh;
+
+    left: 0;
+    top: 0;
+    background: var(--white);
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+.logo {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+}
+
+.logo-container img {
+    width: 200px;
+    height: 200px;
+
+    max-width: 100%;
+    height: auto;
+}
+
+.sidebar ul {
+    list-style: none;
+    text-align: left;
+    padding-right: 0px;
+}
+
+.router-link-active {
+    font-size: 24px;
+    color: black;
+}
+
+.router-link-active:hover {
+    color: var(--blue-500);
+    background-color: var(--white);
+}
+
+.active-li {
+    background-color: var(--blue-500);
+    color: var(--white);
+}
+
+.default-li {
+    background-color: var(--white);
+    color: #272727;
+}
+
+li {
+    border-radius: 5px 0px 0px 5px;
+
+    cursor: pointer;
+    list-style-type: none;
+
+    font-size: 20px;
+    font-family: 'Roboto';
+    font-weight: 700;
+
+    text-decoration: none;
+
+    transition: background-color 0.3s ease, transform 0.3s ease;
+
+    padding: 5px 15px 5px 15px;
+}
+
+.default-li:hover {
+    background-color: #cce7ff;
+    color: #0066cc;
+    border-color: #0066cc;
+    opacity: 100%
+}

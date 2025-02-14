@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+  namespace: agendafacil
+spec:
+  selector:
+    app: agendafacil-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  namespace: agendafacil
+  labels:
+    app: agendafacil-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: agendafacil-frontend
+  template:
+    metadata:
+      labels:
+        app: agendafacil-frontend
+    spec:
+      containers:
+        - name: agendafacil-frontend
+          image: pescador95/agendafacil:vue
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              memory: "256Mi"
+          env:
+            - name: VITE_API_BASE_URL
+              value: "http://backend-service:3000"              

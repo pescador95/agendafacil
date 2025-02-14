@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-deployment
+  namespace: agendafacil
+  labels:
+    app: agendafacil-prometheus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: agendafacil-prometheus
+  template:
+    metadata:
+      labels:
+        app: agendafacil-prometheus
+    spec:
+      containers:
+        - name: agendafacil-prometheus
+          image: pescador95/agendafacil:prometheus
+          ports:
+            - containerPort: 9090
+            - containerPort: 9091

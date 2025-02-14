@@ -1,0 +1,17 @@
+FROM grafana/tempo:latest
+
+USER root
+
+RUN mkdir -p /data/tempo/blocks && chown -R 1000:1000 /data/tempo
+
+USER 1000
+
+COPY tempo-config.yaml /etc/tempo/tempo-config.yaml
+
+VOLUME ["/data/tempo"]
+
+ENV TEMPO_CONFIG_FILE=/etc/tempo/tempo-config.yaml
+
+EXPOSE 3200 4417 4418 9096 
+
+CMD ["/bin/tempo", "ingester", "-config.file=/etc/tempo/tempo-config.yaml"]

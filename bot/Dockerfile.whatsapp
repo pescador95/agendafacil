@@ -1,0 +1,35 @@
+FROM node:latest AS builder
+
+WORKDIR /build
+
+COPY /whatsapp/package.json ./
+
+RUN npm install --silent
+
+COPY /core ./core
+
+COPY /whatsapp ./whatsapp
+
+RUN ARCH=$(dpkg --print-architecture | awk -F- '{ print $NF }') \
+    && echo "Arquitetura detectada: $ARCH"
+
+RUN npm install --prefix /build/whatsapp --platform=linux --arch=$ARCH sharp
+
+FROM node:latest
+
+WORKDIR /app
+
+RUN set -x \
+    && apt-get update \
+    && apt-get install -y \
+    chromium \
+    build-essential \
+    libvips-dev
+
+COPY --from=builder /build .
+
+ENV PORT=4000
+
+EXPOSE $PORT
+
+CMD ["node", "./whatsapp/index.js"]

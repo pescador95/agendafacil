@@ -1,0 +1,24 @@
+{
+  "name": "agendafacil-api-core-Whatsapp",
+  "version": "1.0.0",
+  "description": "Agenda Facil - API Core Module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "agendafacil-api-core-Whatsapp": "file:",
+    "axios": "1.7.9",
+    "moment": "^2.29.4",
+    "moment-business-days": "^1.2.0"
+  },
+  "keywords": [
+    "core",
+    "nodejs",
+    "axios",
+    "moment",
+    "moment-business-days"
+  ],
+  "author": "pescador95",
+  "license": "ISC"
+}
